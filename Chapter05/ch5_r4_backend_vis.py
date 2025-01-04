@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
-Updated Aug 2021
+Updated Aug 2021, March 2023
 
 @author: hassi
 """
 
 # Import the required Qiskit classes
-from qiskit import IBMQ, QuantumCircuit, transpile
+from qiskit import QuantumCircuit, transpile
+from qiskit_ibm_provider import IBMProvider
 from qiskit.providers.ibmq import least_busy
 
 # Import the backend visualization methods
@@ -20,9 +21,10 @@ print("Ch 5: Backend visualization")
 print("---------------------------")
 
 print("Getting provider...")
-if not IBMQ.active_account():
-    IBMQ.load_account()
-provider = IBMQ.get_provider()
+if not IBMProvider.active_account:
+    print("Loading account")
+    IBMProvider.load_account()
+provider = IBMProvider()
 
 # Get all available and operational backends.
 print("Getting the available backends...")

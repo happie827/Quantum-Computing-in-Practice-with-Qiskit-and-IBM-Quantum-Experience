@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
+Updated March 2023
 
 @author: hassi
 """
 
-from qiskit import IBMQ, QuantumCircuit, execute
+from qiskit import QuantumCircuit, execute
+from qiskit_ibm_provider import IBMProvider
 from qiskit.tools.monitor import job_monitor
 from qiskit.visualization import plot_histogram
 
@@ -16,9 +18,10 @@ print("Ch 5: Comparing backends")
 print("------------------------")
 
 print("Getting provider...")
-if not IBMQ.active_account():
-    IBMQ.load_account()
-provider = IBMQ.get_provider()
+if not IBMProvider.active_account:
+    print("Loading account")
+    IBMProvider.load_account()
+provider = IBMProvider()
 
 # Cceate a Bell circuit 
 qc = QuantumCircuit(2,2)
@@ -42,7 +45,7 @@ for n in range(0, len(backends)):
     job = execute(qc, backends[n], shots=1000)
     job_monitor(job)
     result = job.result()
-    counts[backends[n].name()] = result.get_counts(qc)
+    counts[backends[n].name] = result.get_counts(qc)
 
 #Display the data that we want to plot.
 print("\nRaw results:", counts)

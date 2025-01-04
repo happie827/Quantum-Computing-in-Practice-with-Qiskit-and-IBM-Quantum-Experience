@@ -6,16 +6,17 @@ Created Nov 2020
 @author: hassi
 """
 
-from qiskit import IBMQ
+from qiskit_ibm_provider import IBMProvider
 from qiskit.providers.ibmq import least_busy
 
 print("Ch 5: Explore a backend")
 print("-----------------------")
 
 print("Getting provider...")
-if not IBMQ.active_account():
-    IBMQ.load_account()
-provider = IBMQ.get_provider()
+if not IBMProvider.active_account:
+    print("Loading account")
+    IBMProvider.load_account()
+provider = IBMProvider()
 
 
 # Get all available and operational backends.
