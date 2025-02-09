@@ -2,31 +2,34 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
-Updated March 2023
+Updated March 2025
 
 @author: hassi
 """
 
-from qiskit_ibm_provider import IBMProvider
-from qiskit.providers.ibmq import least_busy
+from qiskit_ibm_runtime import QiskitRuntimeService
+
+from IPython.core.display import display
 
 print("Ch 5: Least busy backend")
 print("------------------------")
 
-print("Getting provider...")
-if not IBMProvider.active_account:
+# Set service 
+print("Getting service...")
+if not QiskitRuntimeService().active_account:
     print("Loading account")
-    IBMProvider.load_account()
-provider = IBMProvider()
+    QiskitRuntimeService().load_account()
+service = QiskitRuntimeService()
 
 # Finding the least busy backend
-backend = least_busy(provider.backends(operational=True, simulator=False))
+backend = service.least_busy()
 print("Least busy backend:", backend.name)
 
-filtered_backend = least_busy(provider.backends(filters=lambda x: x.configuration().n_qubits = 5 and not x.configuration().simulator and x.status().operational==True))
+filtered_backend = service.least_busy(operational=True, min_num_qubits=127)
 
-print("\nLeast busy backend with more than one qubit:", filtered_backend.name)
+print("\nLeast busy backend with at least 127 qubits:", filtered_backend.name)
 
-from qiskit.tools.monitor import backend_overview
-print("\nAll backends overview:\n")
-backend_overview()  ## Throws error aise QiskitError("No backends available.")
+print("\nAvailable backends:")
+backends=service.backends()
+for item in backends:
+    print("\nName: ",item.name, "\nJobs in queue: ",item.status().pending_jobs,"\nNumber of qubits: ", item.num_qubits)

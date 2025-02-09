@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020, updated Jan 2025 <- Pending
+Created Nov 2020, updated Feb 2025
 
 @author: hassi
 """
