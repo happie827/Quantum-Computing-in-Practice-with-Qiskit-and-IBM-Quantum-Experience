@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
-Updated March 2023
+Updated March 2023, Updated Feb 2025
 
 @author: hassi
 """
@@ -16,7 +16,10 @@ from math import  sqrt, pi, sin, cos
 from IPython.core.display import display
 
 # Import the required Qiskit classes
-from qiskit import QuantumCircuit, execute, Aer
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.quantum_info import Statevector
+
 
 # Import Blochsphere visualization
 from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
@@ -37,16 +40,16 @@ valid_start=["0"]+start_states
 # Function that returns the state vector (Psi) for the circuit
 def get_psi(circuit):
     global psi
-    backend = Aer.get_backend('statevector_simulator') 
-    result = execute(circuit, backend).result()
-    psi = result.get_statevector(circuit)
+    psi = Statevector(circuit)
     return(psi) 
         
 # Function that returns the unitary of the circuit
 def get_unitary(circuit):
-    simulator = Aer.get_backend('unitary_simulator')
-    result = execute(circuit, simulator).result()
-    unitary = result.get_unitary(circuit)  
+    simulator = AerSimulator(method = 'unitary')
+    circuit.save_unitary()
+    circuit = transpile(circuit, simulator)
+    result = simulator.run(circuit).result()
+    unitary = result.get_unitary(circuit)
     return(unitary)      
 
 # Function that creates a quantum circuit

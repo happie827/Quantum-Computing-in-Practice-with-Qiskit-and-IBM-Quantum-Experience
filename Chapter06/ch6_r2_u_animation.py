@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 Created Nov 2020
-Updated March 2023
+Updated March 2023, Updated Feb 2025
 
 @author: hassi
 """
 
 
-from qiskit import QuantumCircuit, execute, Aer
-
+from qiskit import QuantumCircuit
+from qiskit.quantum_info import Statevector
 from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
 
 # Import image and file processing tools
@@ -31,9 +31,7 @@ else:
 
 def get_psi(circuit):
     global psi
-    backend = Aer.get_backend('statevector_simulator') 
-    result = execute(circuit, backend).result()
-    psi = result.get_statevector(circuit)
+    psi = Statevector(circuit)
     return(psi) 
 
 def create_images(theta=0.0,phi=0.0,lam=0.0):

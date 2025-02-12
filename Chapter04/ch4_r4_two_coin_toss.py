@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020, updated Jan 2025
+Created Nov 2020, updated Feb 2025
 
 @author: hassi
 """
@@ -31,5 +31,22 @@ counts = quasi_dists[0].binary_probabilities()
 #Plot the results
 display(plot_distribution(counts))
 
-print(counts)
+print("\nSampler: ", counts)
+
+
+# Alternatively run on Aersimulator        
+from qiskit import transpile
+from qiskit_aer import AerSimulator
+
+# Transpile for simulator
+simulator = AerSimulator()
+circ = transpile(qc, simulator)
+
+# Run and get counts
+result = simulator.run(circ).result()
+counts = result.get_counts(circ)
+
+display(plot_distribution(counts))
+print("\nAerSimulator counts: ", counts)
+
 
