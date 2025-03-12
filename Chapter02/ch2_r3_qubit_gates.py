@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020, verified Feb 2025
+Created Nov 2020
 
 @author: hassi
 """
@@ -17,7 +17,9 @@ print("-------------------")
 print("Vector representations of our qubits:")
 print("-------------------------------------")
 
-qubits = {"|0\u27E9":np.array([1,0]), "|1\u27E9":np.array([0,1]), "(|0\u27E9+|1\u27E9)/\u221a2":1/sqrt(2)*np.array([1,1])}
+qubits = {"|0\u27E9":np.array([1,0]), 
+          "|1\u27E9":np.array([0,1]), 
+          "(|0\u27E9+|1\u27E9)/\u221a2":1/sqrt(2)*np.array([1,1])}
 
 for q in qubits:
   print(q, "\n", qubits[q].round(3)) 
@@ -26,7 +28,12 @@ input("Press return to continue...\n")
 
 print("Matrix representations of our quantum gates:")
 print("--------------------------------------------")
-gates ={"id":np.array([[1, 0], [0, 1]]),"x":np.array([[0, 1], [1, 0]]), "h":1/sqrt(2)*np.array([[1, 1], [1, -1]])}
+gates ={"id":np.array([[1, 0], 
+                       [0, 1]]),
+        "x":np.array([[0, 1], 
+                      [1, 0]]), 
+        "h":1/sqrt(2)*np.array([[1, 1], 
+                                [1, -1]])}
 
 for g in gates:
   print(g, "\n", gates[g].round(3)) 
@@ -50,7 +57,11 @@ input("Press return to continue...\n")
 print("Vector representations of our two qubits:")
 print("-----------------------------------------")
 
-twoqubits = {"|00\u27E9":np.array([1,0,0,0]), "|01\u27E9":np.array([0,1,0,0]),"|10\u27E9":np.array([0,0,1,0]),"|11\u27E9":np.array([0,0,0,1]),"|PH\u27E9":np.array([0.5,-0.5,0.5,-0.5])}
+twoqubits = {"|00\u27E9":np.array([1,0,0,0]), 
+             "|01\u27E9":np.array([0,1,0,0]),
+             "|10\u27E9":np.array([0,0,1,0]),
+             "|11\u27E9":np.array([0,0,0,1]),
+             "|PH\u27E9":np.array([0.5,-0.5,0.5,-0.5])}
 
 for b in twoqubits:
   print(b, "\n", twoqubits[b]) 
@@ -59,7 +70,14 @@ input("Press return to continue...\n")
 
 print("Matrix representations of our quantum gates:")
 print("--------------------------------------------")
-twogates ={"cx":np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]), "swap":np.array([[1, 0, 0, 0], [0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1]])}
+twogates ={"cx":np.array([[1, 0, 0, 0], 
+                          [0, 1, 0, 0], 
+                          [0, 0, 0, 1], 
+                          [0, 0, 1, 0]]), 
+          "swap":np.array([[1, 0, 0, 0], 
+                           [0, 0, 1, 0], 
+                           [0, 1, 0, 0], 
+                           [0, 0, 0, 1]])}
 
 for g in twogates:
   print(g, "\n", twogates[g].round()) 

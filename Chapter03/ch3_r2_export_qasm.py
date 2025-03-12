@@ -24,11 +24,24 @@ print("\nOpenQASM code")
 print("-------------\n")
 
 from qiskit.qasm2 import dumps
+filepath = "Quantum-Computing-in-Practice-with-Qiskit-and-IBM-Quantum-Experience/Chapter03/Circuit_r2.qasm"
+
 qasm_str = dumps(circ)
 print(qasm_str)
 
 #Save the QASM string as a .qasm file
-with open("Circuit.qasm", "w") as text_file:
+with open(filepath, "w") as text_file:
     print(qasm_str, file=text_file)
 
+print("\n-------------\n")
 
+############## # QASM 3 export용
+from qiskit.qasm3 import dumps  
+filepath = "Quantum-Computing-in-Practice-with-Qiskit-and-IBM-Quantum-Experience/Chapter03/Circuit_r3.qasm"
+
+qasm_str = dumps(circ)
+print(qasm_str)
+
+#Save the QASM string as a .qasm file
+with open(filepath, "w") as text_file:
+    print(qasm_str, file=text_file)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created Nov 2020, verified March 2023
+Created Nov 2020
 
 @author: hassi
 """
@@ -12,7 +12,13 @@ import cmath
 from math import pi, sin, cos
 from qiskit.visualization import plot_bloch_vector
 
-from IPython.core.display import display
+# from IPython.core.display import display
+
+import matplotlib
+matplotlib.use('TkAgg')  #sudo apt install python3-tk # 또는 'Qt5Agg'도 가능 #
+
+import matplotlib.pyplot as plt
+
 
 np.set_printoptions(precision=3)
 
@@ -27,12 +33,24 @@ angles={"theta": pi/2, "phi":0}
 #angles["phi"]=float(input("Phi:\n"))
 
 # Set up the bit and qubit vectors
-bits = {"bit = 0":{"theta": 0, "phi":0}, "bit = 1":{"theta": pi, "phi":0}, "|0\u27E9":{"theta": 0, "phi":0}, "|1\u27E9":{"theta": pi, "phi":0}, "a|0\u27E9+b|1\u27E9":angles}
+bits = {"bit = 0":{"theta": 0, "phi":0}, 
+        "bit = 1":{"theta": pi, "phi":0}, 
+        "|0\u27E9":{"theta": 0, "phi":0}, 
+        "|1\u27E9":{"theta": pi, "phi":0}, 
+        "a|0\u27E9+b|1\u27E9":angles}
 
 # Print the bits and qubits on the Bloch sphere 
 for bit in bits:
-    bloch=[cos(bits[bit]["phi"])*sin(bits[bit]["theta"]),sin(bits[bit]["phi"])*sin(bits[bit]["theta"]),cos(bits[bit]["theta"])]
-    display(plot_bloch_vector(bloch, title=bit))
+    bloch=[cos(bits[bit]["phi"])*sin(bits[bit]["theta"]),
+           sin(bits[bit]["phi"])*sin(bits[bit]["theta"]),
+           cos(bits[bit]["theta"])]
+    
+    # display(plot_bloch_vector(bloch, title=bit))
+    fig = plot_bloch_vector(bloch, title=bit)
+    print(bit)
+    plt.show()
+    
+
     # Build the state vector
     a = cos(bits[bit]["theta"]/2)
     b = cmath.exp(bits[bit]["phi"]*1j)*sin(bits[bit]["theta"]/2)
