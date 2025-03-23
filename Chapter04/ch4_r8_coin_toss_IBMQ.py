@@ -12,7 +12,18 @@ from qiskit_ibm_runtime import QiskitRuntimeService
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
 #Optional: When running in an iPhyton environment
-from IPython.display import display
+IPYTHON = False
+if IPYTHON:
+    from IPython.display import display
+else : 
+    import matplotlib
+    matplotlib.use('TkAgg')  #sudo apt install python3-tk # 또는 'Qt5Agg'도 가능 #
+    import matplotlib.pyplot as plt
+    def display(job):
+        fig = job
+        plt.show()
+
+
 
 #If you haven't, add your API token from https://quantum.ibm.com
 #QiskitRuntimeService.save_account(channel="ibm_quantum", token="TOKEN", set_as_default=True, overwrite=True)
@@ -30,20 +41,34 @@ qc.cx(0,1)
 qc.measure([0,1],[0,1])
 
 # Display the raw circuit
-display(qc.draw('mpl'))
+if IPYTHON:
+    display(qc.draw('mpl'))
+else:
+    fig = qc.draw('mpl')
+    plt.show()
 
+
+#############################################
 # Set service and select backend
 service = QiskitRuntimeService()
 service.backends()
 backend = service.least_busy(operational=True, simulator=False)
 print("Backend: ", backend.name)
 
+
 # Transpile and display the circuit for the backend
 tr_qc = generate_preset_pass_manager(backend=backend, optimization_level=3).run(qc)
-display(tr_qc.draw("mpl", idle_wires=False))
+
+if IPYTHON:
+    display(tr_qc.draw("mpl", idle_wires=False))
+else:
+    fig = tr_qc.draw("mpl", idle_wires=False)
+    plt.show()
+
 
 #Optional: Visualize the coupling directional map for the backend
 display(plot_gate_map(backend, plot_directed=True))
+##################################################3
 
 # Run as sampler 
 from qiskit_ibm_runtime import SamplerV2 as Sampler

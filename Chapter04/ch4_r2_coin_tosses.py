@@ -10,7 +10,17 @@ from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit_aer.primitives import Sampler
 from qiskit.visualization import plot_distribution
 
-from IPython.display import display
+IPYTHON = False
+if IPYTHON:
+    from IPython.display import display
+else : 
+    import matplotlib
+    matplotlib.use('TkAgg')  #sudo apt install python3-tk # 또는 'Qt5Agg'도 가능 #
+    import matplotlib.pyplot as plt
+    def display(job):
+        fig = job
+        plt.show()
+
 
 print("Ch 4: Quantum coin tosses")
 print("-------------------------")
@@ -19,9 +29,16 @@ q = QuantumRegister(1)
 c = ClassicalRegister(1)
 qc = QuantumCircuit(q, c)
 
+qc.x(0)
 qc.h(q[0])
 qc.measure(q, c)
-display(qc.draw('mpl'))
+
+if IPYTHON:
+    display(qc.draw('mpl'))
+else:
+    fig = qc.draw('mpl')
+    plt.show()
+
 
 # Run the simple quantum circuit on local Sampler 
 job = Sampler().run([qc])
@@ -39,7 +56,7 @@ from qiskit import transpile
 from qiskit_aer import AerSimulator
 
 # Transpile for simulator
-simulator = AerSimulator()
+simulator = AerSimulator(shots=2048)
 circ = transpile(qc, simulator)
 
 # Run and get counts

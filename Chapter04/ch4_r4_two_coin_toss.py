@@ -10,8 +10,16 @@ from qiskit import QuantumCircuit
 from qiskit_aer.primitives import Sampler
 from qiskit.visualization import plot_distribution
 
-from IPython.display import display
-
+IPYTHON = False
+if IPYTHON:
+    from IPython.display import display
+else : 
+    import matplotlib
+    matplotlib.use('TkAgg')  #sudo apt install python3-tk # 또는 'Qt5Agg'도 가능 #
+    import matplotlib.pyplot as plt
+    def display(job):
+        fig = job
+        plt.show()
 
 print("Ch 4: Quantum double coin toss")
 print("------------------------------")
@@ -21,7 +29,11 @@ qc = QuantumCircuit(2, 2)
 qc.h([0,1])
 qc.measure([0,1],[0,1])
 
-display(qc.draw('mpl'))
+if IPYTHON:
+    display(qc.draw('mpl'))
+else:
+    fig = qc.draw('mpl')
+    plt.show()
 
 # Run the simple quantum circuit on local Sampler 
 job = Sampler().run([qc])
