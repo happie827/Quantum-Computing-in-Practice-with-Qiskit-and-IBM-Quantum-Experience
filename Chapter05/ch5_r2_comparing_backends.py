@@ -66,5 +66,9 @@ print("\nRaw results:", counts)
 colors = ['green','darkgreen','red','darkred', 'orange','yellow','blue','darkblue','purple']
 
 #Plot the counts dictionary values in a histogram, using the counts dictionary keys as legend.
-display(plot_distribution(list(counts.values()), title = "Bell results on all available backends", legend=list(counts), color = colors[0:len(backends)], bar_labels = True))
+display(plot_distribution(list(counts.values()), 
+                          title = "Bell results on all available backends", 
+                          legend=list(counts), 
+                          color = colors[0:len(backends)], 
+                          bar_labels = True))
 

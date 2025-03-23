@@ -18,19 +18,6 @@ from IPython.display import display
 print("Ch 5: Identifying backends")
 print("--------------------------")
 
-
-# Set service and select backend
-print("Getting service...")
-if not QiskitRuntimeService().active_account:
-    print("Loading account")
-    QiskitRuntimeService().load_account()
-service = QiskitRuntimeService()
-
-print("\nAvailable backends:")
-backends=service.backends(operational=True, simulator=False)
-for item in backends:
-    print("\nName: ",item.name, "\nJobs in queue: ",item.status().pending_jobs)
-
 # Create a quantum circuit to test
 qc = QuantumCircuit(2,2)
 
@@ -40,6 +27,20 @@ qc.measure([0,1],[0,1])
 
 print("\nQuantum circuit:")
 print(qc)
+
+
+# Set service and select backend
+print("Getting service...")
+
+import os
+from qiskit_ibm_runtime import QiskitRuntimeService
+service = QiskitRuntimeService(channel="ibm_quantum", 
+                               token=os.environ['IQP_API_TOKEN'])
+
+print("\nAvailable backends:")
+backends=service.backends(operational=True, simulator=False)
+for item in backends:
+    print("\nName: ",item.name, "\nJobs in queue: ",item.status().pending_jobs)
 
 select_backend=input("\nType in the name of a backend to run the job: ")
 backend = service.backend(select_backend)
