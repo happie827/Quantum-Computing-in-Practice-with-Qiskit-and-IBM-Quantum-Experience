@@ -41,33 +41,44 @@ qc.cx(0,1)
 qc.measure([0,1],[0,1])
 
 # Display the raw circuit
-if IPYTHON:
-    display(qc.draw('mpl'))
-else:
-    fig = qc.draw('mpl')
-    plt.show()
+# if IPYTHON:
+#     display(qc.draw('mpl'))
+# else:
+#     fig = qc.draw('mpl')
+#     plt.show()
 
 
-#############################################
-# Set service and select backend
-service = QiskitRuntimeService()
-service.backends()
-backend = service.least_busy(operational=True, simulator=False)
-print("Backend: ", backend.name)
+#################################################################
+# Use the instance
+################################################################# 
+
+# import os
+# from qiskit_ibm_runtime import QiskitRuntimeService
+# service = QiskitRuntimeService(channel="ibm_quantum", 
+#                                 token=os.environ['IQP_API_TOKEN'])
+# backend = service.least_busy(operational=True,simulator=False)
+
+#################################################################
+# Use the following code instead if you want to run on a simulator:
+################################################################# 
+
+from qiskit_ibm_runtime.fake_provider import FakeAlmadenV2
+backend = FakeAlmadenV2()
+
 
 
 # Transpile and display the circuit for the backend
 tr_qc = generate_preset_pass_manager(backend=backend, optimization_level=3).run(qc)
 
-if IPYTHON:
-    display(tr_qc.draw("mpl", idle_wires=False))
-else:
-    fig = tr_qc.draw("mpl", idle_wires=False)
-    plt.show()
+# if IPYTHON:
+#     display(tr_qc.draw("mpl", idle_wires=False))
+# else:
+#     fig = tr_qc.draw("mpl", idle_wires=False)
+#     plt.show()
 
 
 #Optional: Visualize the coupling directional map for the backend
-display(plot_gate_map(backend, plot_directed=True))
+# display(plot_gate_map(backend, plot_directed=True))
 ##################################################3
 
 # Run as sampler 
@@ -80,8 +91,9 @@ print(f">>> Job Status: {job.status()}")
 
 #Get results as counts of the possible outputs
 result = job.result()
+print(result)
 counts = result[0].data.c.get_counts()
 
 #Print and plot the results
 print(f"Counts for the 'c' output register: {counts}")
-display(plot_distribution(counts))
+# display(plot_distribution(counts))
