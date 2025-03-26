@@ -13,7 +13,7 @@ import random #To create random state vector
 import cmath #To juggle complex exponentials
 from math import  sqrt, pi, sin, cos
 
-from IPython.core.display import display
+
 
 # Import the required Qiskit classes
 from qiskit import QuantumCircuit, transpile
@@ -23,6 +23,18 @@ from qiskit.quantum_info import Statevector
 
 # Import Blochsphere visualization
 from qiskit.visualization import plot_bloch_multivector, plot_state_qsphere
+
+
+IPYTHON = False
+if IPYTHON:
+    from IPython.display import display
+else : 
+    import matplotlib
+    matplotlib.use('TkAgg')  #sudo apt install python3-tk # 또는 'Qt5Agg'도 가능 #
+    import matplotlib.pyplot as plt
+    def display(job):
+        fig = job
+        plt.show()
 
 # Categorize our gates
 rot_gates=["rx","ry","rz","u"]

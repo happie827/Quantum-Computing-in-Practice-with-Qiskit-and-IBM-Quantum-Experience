@@ -29,11 +29,14 @@ qc = QuantumCircuit(2, 2)
 qc.h([0,1])
 qc.measure([0,1],[0,1])
 
-if IPYTHON:
-    display(qc.draw('mpl'))
-else:
-    fig = qc.draw('mpl')
-    plt.show()
+display(qc.draw())
+display(qc.draw('mpl'))
+# if IPYTHON:
+#     display(qc.draw('mpl'))
+# else:
+#     fig = qc.draw('mpl')
+#     plt.show()
+ 
 
 # Run the simple quantum circuit on local Sampler 
 job = Sampler().run([qc])

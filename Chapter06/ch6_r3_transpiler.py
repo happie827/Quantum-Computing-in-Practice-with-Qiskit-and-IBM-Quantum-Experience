@@ -16,13 +16,51 @@ from qiskit_ibm_runtime import QiskitRuntimeService
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
 #Optional: When running in an iPhyton environment
-from IPython.display import display
+IPYTHON = False
+if IPYTHON:
+    from IPython.display import display
+else : 
+    import matplotlib
+    matplotlib.use('TkAgg')  #sudo apt install python3-tk # 또는 'Qt5Agg'도 가능 #
+    import matplotlib.pyplot as plt
+    def display(job):
+        fig = job
+        plt.show()
 
-# Set service and select backend
-service = QiskitRuntimeService()
-service.backends()
-backend = service.least_busy(operational=True, simulator=False)
+
+from qiskit_ibm_runtime import EstimatorV2 as Estimator
+
+#################################################################
+# Use the instance
+################################################################# 
+
+import os
+from qiskit_ibm_runtime import QiskitRuntimeService
+service = QiskitRuntimeService(channel="ibm_quantum", 
+                                token=os.environ['IQP_API_TOKEN'])
+backend = service.least_busy(simulator=False, operational=True)
+
+# # Construct the Estimator instance.
+# estimator = Estimator(mode=backend)
+# estimator.options.resilience_level = 1
+# estimator.options.default_shots = 5000
+
+#################################################################
+# Use the following code instead if you want to run on a simulator:
+################################################################# 
+
+# from qiskit_ibm_runtime.fake_provider import FakeAlmadenV2
+# backend = FakeAlmadenV2()
+# estimator = Estimator(backend)
+
 print("Backend: ", backend.name)
+
+#################### original
+# Set service and select backend
+# service = QiskitRuntimeService()
+# service.backends()
+# backend = service.least_busy(operational=True, simulator=False)
+# print("Backend: ", backend.name)
 
 # Uncomment to set the backend to a simulator
 #backend = provider.get_backend('ibmq_qasm_simulator')
@@ -84,6 +122,7 @@ def main():
         # Print the original and transpiled circuits
         print("Circuit:")
         display(qc.draw())
+        display(qc.draw("mpl"))
         print("Transpiled circuit:")
         display(trans_qc.draw("mpl", idle_wires=False))
         
