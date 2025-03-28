@@ -7,8 +7,7 @@ Created Nov 2020, updated Feb 2025
 """
 
 from qiskit import QuantumCircuit
-from qiskit_aer.primitives import Sampler
-from qiskit.visualization import plot_distribution
+
 
 from IPython.display import display
 
@@ -28,6 +27,9 @@ print(qc)
 #display(qc.draw())
 
 # Run the simple quantum circuit on local Sampler 
+from qiskit_aer.primitives import Sampler
+from qiskit.visualization import plot_distribution
+
 job = Sampler().run([qc])
 quasi_dists = job.result().quasi_dists
 counts = quasi_dists[0].binary_probabilities()

@@ -5,11 +5,6 @@ Created Nov 2020, updated Feb 2025
 
 @author: hassi
 """
-
-from qiskit import QuantumCircuit
-from qiskit_aer.primitives import Sampler
-from qiskit.visualization import plot_distribution
-
 IPYTHON = False
 if IPYTHON:
     from IPython.display import display
@@ -21,6 +16,9 @@ else :
         fig = job
         plt.show()
 
+
+from qiskit import QuantumCircuit
+
 print("Ch 4: Cheating quantum coin toss")
 print("--------------------------------")
 
@@ -30,13 +28,14 @@ qc.h(0)
 qc.cx(0,1)
 qc.measure([0,1],[0,1])
 
-if IPYTHON:
-    display(qc.draw('mpl'))
-else:
-    fig = qc.draw('mpl')
-    plt.show()
+fig = qc.draw('mpl')
+display(fig)
 
 # Run the simple quantum circuit on local Sampler 
+
+from qiskit_aer.primitives import Sampler
+from qiskit.visualization import plot_distribution
+
 job = Sampler().run([qc])
 quasi_dists = job.result().quasi_dists
 counts = quasi_dists[0].binary_probabilities()
